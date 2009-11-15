@@ -42,8 +42,7 @@ class Usuarios {
     public function FindOne($Usuario){
         $this->sqlStatement = "SELECT
                                         int_idusuario as id,
-                                        int_idusername as idusername,
-                                        int_idtipo_usuario as idtipousuario,
+                                        int_idtipo_usuario as tipo,
                                         tx_nomeusuario as nome,
                                         tx_sobrenomeusuario as sobrenome,
                                         tx_email as email,
@@ -81,7 +80,7 @@ class Usuarios {
     public function FindAll($Expression='',$Order=''){
         $this->sqlStatement = "SELECT
                                         int_idusuario as id,
-                                        int_idtipo_usuario as idtipousuario,
+                                        int_idtipo_usuario as tipo,
                                         tx_nomeusuario as nome,
                                         tx_sobrenomeusuario as sobrenome,
                                         tx_email as email,
@@ -118,7 +117,7 @@ class Usuarios {
         if($dados->id != '0')
         {
             $this->sqlStatement = " UPDATE tbusuarios SET ";
-            $this->sqlStatement .= " int_idtipo_usuario = {$dados->idtipousuario}, ";
+            $this->sqlStatement .= " int_idtipo_usuario = {$dados->tipo}, ";
             $this->sqlStatement .= " tx_nomeusuario = '{$dados->nome}', ";
             $this->sqlStatement .= " tx_sobrenomeusuario = '{$dados->sobrenome}', ";
             $this->sqlStatement .= " tx_email = '{$dados->email}' ";
@@ -138,7 +137,7 @@ class Usuarios {
             $this->sqlStatement .= "VALUES
                                     (
                                         {$this->valueID},
-                                        {$dados->idtipousuario},
+                                        {$dados->tipo},
                                         '{$dados->nome}',
                                         '{$dados->sobrenome}',
                                         '{$dados->email}'

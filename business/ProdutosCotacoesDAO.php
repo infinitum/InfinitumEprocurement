@@ -7,7 +7,7 @@
  * @copyright Infinitum
  */
  require_once('../includes.php');
-class Marcas {
+class ProdutosCotacoes {
     private $dbInstance;
     private $sqlStatement;
     private $result;
@@ -40,17 +40,19 @@ class Marcas {
      * @version 1.0
      * @return RecordSet
      */
-    public function FindOne($Marca){
+    public function FindOne($Cotacoes,$Produtos){
         $this->sqlStatement = "SELECT
-                                    int_idmarca as id,
-                                    tx_marca as marca
+                                    int_idcotacao as idcotacao,
+                                    int_idproduto as idproduto,
+                                    int_quantidade as quantidade
                                 FROM
-                                    tbmarcas
+                                    tbprodutoscotacoes
                                 WHERE
-                                        int_idproduto = {$Marca}";
+                                    int_idcotacao = {$Cotacoes} AND
+                                    int_idproduto = {$Produtos}";
 
         try{
-            $tmpRs = $this->dbInstance->Execute($this->sqlStatement,"Find marca()");
+            $tmpRs = $this->dbInstance->Execute($this->sqlStatement,"Find produtoscotacoes()");
             $this->result[] = $this->dbInstance->Fetch($tmpRs);
         }
         catch (Exception $e)
@@ -76,15 +78,16 @@ class Marcas {
      */
     public function FindAll($Expression='',$Order=''){
         $this->sqlStatement = " SELECT
-                                    int_idmarca as id,
-                                    tx_marca as nome
+                                    int_idcotacao as idcotacao,
+                                    int_idproduto as idproduto,
+                                    int_quantidade as quantidade
                                 FROM
-                                    tbmarcas  ";
+                                    tbprodutoscotacoes   ";
         if(strlen($Expression) >= '1') $this->sqlStatement .= " WHERE {$Expression} ";
         if(strlen($Order) >= '1') $this->sqlStatement .= " ORDER BY {$Order} ";
 
         try{
-            $tmpRs = $this->dbInstance->Execute($this->sqlStatement,"Find marca()");
+            $tmpRs = $this->dbInstance->Execute($this->sqlStatement,"Find produtocotacao()");
             $this->result[] = $this->dbInstance->Fetch($tmpRs);
         }
         catch (Exception $e)
@@ -107,29 +110,21 @@ class Marcas {
      * @return Boolean
      */
     public function Save($dados){
-        if($dados->id != '0')
-        {
-            $this->sqlStatement = " UPDATE tbmarcas SET ";
-            $this->sqlStatement .= " tx_marca = '{$dados->nome}' ";
-            $this->sqlStatement .= " WHERE int_idmarca = {$dados->id} ";
-        }
-        else
-        {
-            $this->valueID = $this->sequence->getSequence('tbmarcas');
-            $this->sqlStatement .= " INSERT INTO tbmarcas
-                                    (
-                                        int_idmarca,
-                                        tx_marca
-                                    )";
-            $this->sqlStatement .= "VALUES
-                                    (
-                                        {$this->valueID},
-                                        '{$dados->nome}'
-                                    )";
-        }
-
+        $this->sqlStatement .= " INSERT INTO tbprodutoscotacoes
+                                (
+                                    int_idcotacao,
+                                    int_idproduto,
+                                    int_quantidade
+                                )";
+        $this->sqlStatement .= "VALUES
+                                (
+                                    {$this->idcotacao},
+                                    {$dados->idproduto},
+                                    {$dados->quantidade}
+                                )";
+        
         try{
-            $this->dbInstance->Execute($this->sqlStatement,"Save marca()");
+            $this->dbInstance->Execute($this->sqlStatement,"Save produtocotacoes()");
         }
         catch (Exception $e)
         {

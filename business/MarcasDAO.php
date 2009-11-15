@@ -7,7 +7,7 @@
  * @copyright Infinitum
  */
  require_once('../includes.php');
-class FornecedorCategoriasProdutos {
+class Marcas {
     private $dbInstance;
     private $sqlStatement;
     private $result;
@@ -40,18 +40,17 @@ class FornecedorCategoriasProdutos {
      * @version 1.0
      * @return RecordSet
      */
-    public function FindOne($fornecedor,$Categoria){
+    public function FindOne($Marca){
         $this->sqlStatement = "SELECT
-                                    int_idfornecedor as idfornecedor,
-                                    int_idcategoriaProduto as idcategoria
+                                    int_idmarca as id,
+                                    tx_marca as nome
                                 FROM
-                                    tbfornecedorrelcategoriaproduto
+                                    tbmarcas
                                 WHERE
-                                    int_idfornecedor = {$fornecedor} AND
-                                    int_idcategoriaProduto = {$Categoria}";
+                                        int_idproduto = {$Marca}";
 
         try{
-            $tmpRs = $this->dbInstance->Execute($this->sqlStatement,"Find fornecedorcategoria()");
+            $tmpRs = $this->dbInstance->Execute($this->sqlStatement,"Find marca()");
             $this->result[] = $this->dbInstance->Fetch($tmpRs);
         }
         catch (Exception $e)
@@ -77,15 +76,15 @@ class FornecedorCategoriasProdutos {
      */
     public function FindAll($Expression='',$Order=''){
         $this->sqlStatement = " SELECT
-                                    int_idfornecedor as idfornecedor,
-                                    int_idcategoriaProduto as idcategoria
+                                    int_idmarca as id,
+                                    tx_marca as nome
                                 FROM
-                                    tbfornecedorrelcategoriaproduto    ";
+                                    tbmarcas  ";
         if(strlen($Expression) >= '1') $this->sqlStatement .= " WHERE {$Expression} ";
         if(strlen($Order) >= '1') $this->sqlStatement .= " ORDER BY {$Order} ";
 
         try{
-            $tmpRs = $this->dbInstance->Execute($this->sqlStatement,"Find fornecedorcategoria()");
+            $tmpRs = $this->dbInstance->Execute($this->sqlStatement,"Find marca()");
             $this->result[] = $this->dbInstance->Fetch($tmpRs);
         }
         catch (Exception $e)
@@ -108,19 +107,29 @@ class FornecedorCategoriasProdutos {
      * @return Boolean
      */
     public function Save($dados){
-        $this->sqlStatement .= " INSERT INTO tbfornecedorrelcategoriaproduto
-                                (
-                                    int_idfornecedor,
-                                    int_idcategoriaProduto
-                                )";
-        $this->sqlStatement .= "VALUES
-                                (
-                                    {$this->idfornecedor},
-                                    {$dados->idcategoria}
-                                )";
-        
+        if($dados->id != '0')
+        {
+            $this->sqlStatement = " UPDATE tbmarcas SET ";
+            $this->sqlStatement .= " tx_marca = '{$dados->nome}' ";
+            $this->sqlStatement .= " WHERE int_idmarca = {$dados->id} ";
+        }
+        else
+        {
+            $this->valueID = $this->sequence->getSequence('tbmarcas');
+            $this->sqlStatement .= " INSERT INTO tbmarcas
+                                    (
+                                        int_idmarca,
+                                        tx_marca
+                                    )";
+            $this->sqlStatement .= "VALUES
+                                    (
+                                        {$this->valueID},
+                                        '{$dados->nome}'
+                                    )";
+        }
+
         try{
-            $this->dbInstance->Execute($this->sqlStatement,"Save fornecedorcategoria()");
+            $this->dbInstance->Execute($this->sqlStatement,"Save marca()");
         }
         catch (Exception $e)
         {
