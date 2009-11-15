@@ -6,7 +6,15 @@
     </head>
     <body>
         <?php
-        // put your code here
+            require_once('includes.php');
+            $obj = new Autenticacao();
+            $data = Array();
+            $data['username'] = "pauloteixeiras";
+            $data['password'] = 'paulo0405';
+
+            $r = $obj->AutenticateUsers($data);
+
+            print_r("retorno: " . $r);
         ?>
     </body>
 </html>

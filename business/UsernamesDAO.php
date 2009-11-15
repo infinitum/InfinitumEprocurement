@@ -169,7 +169,10 @@ class Usernames {
 
         try{
             $tmpRs = $this->dbInstance->Execute($this->sqlStatement,"HQL()");
-            $this->result[] = $this->dbInstance->Fetch($tmpRs);
+            
+            if($this->dbInstance->NumRows($tmpRs))
+                $this->result[] = $this->dbInstance->Fetch($tmpRs);
+            else $this->result = null;
         }
         catch (Exception $e)
         {
@@ -177,6 +180,7 @@ class Usernames {
              exit;
         }
 
+        
         return $this->result;
     }
 }

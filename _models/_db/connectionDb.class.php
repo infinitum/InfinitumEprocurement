@@ -50,7 +50,7 @@
 			$this -> senha = "090302";
 			//$this -> dbName = "xe";
 			//$this -> port = 1521;
-			$this -> dbName = "eprocurement";
+			$this -> dbName = "infinitum_eprocurement";
 			$this -> port = 3306;
 						
 			if($this->typedb == "mysql")

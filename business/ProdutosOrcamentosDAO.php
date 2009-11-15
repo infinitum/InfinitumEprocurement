@@ -7,7 +7,7 @@
  * @copyright Infinitum
  */
  require_once('../includes.php');
-class ProdutosCotacoes {
+class ProdutosOrcamentos {
     private $dbInstance;
     private $sqlStatement;
     private $result;
