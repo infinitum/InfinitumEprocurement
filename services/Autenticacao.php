@@ -34,13 +34,13 @@
 		
 		/**
 		 * Autenticação do usuário
-		 * @name AutenticateUsers
+		 * @name doAutentication
 		 * @access Public
 		 * @param String Username
 		 * @param String Password
 		 * @return Bolean
 		 */
-		public function AutenticateUsers($arrDados='a')
+		public function doAutentication($arrDados)
 		{
 			$dados = new autenticationVO();
 			$dados->username = $arrDados["username"];
