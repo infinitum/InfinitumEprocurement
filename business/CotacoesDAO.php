@@ -7,7 +7,7 @@
  * @copyright Infinitum
  */
  require_once('../includes.php');
-class Cotacoes {
+class CotacoesDAO {
     private $dbInstance;
     private $sqlStatement;
     private $result;
@@ -52,7 +52,14 @@ class Cotacoes {
 
         try{
             $tmpRs = $this->dbInstance->Execute($this->sqlStatement,"Find cotacao()");
-            $this->result[] = $this->dbInstance->Fetch($tmpRs);
+            if($this->dbInstance->NumRows($tmpRs))
+            {
+              if($this->dbInstance->NumRows($tmpRs) == 1)
+                $this->result[] = $this->dbInstance->Fetch($tmpRs);
+              else
+                while($this->result[] = $this->dbInstance->Fetch($tmpRs));
+            }
+            else $this->result = null;
         }
         catch (Exception $e)
         {
@@ -87,7 +94,14 @@ class Cotacoes {
 
         try{
             $tmpRs = $this->dbInstance->Execute($this->sqlStatement,"Find cotacao()");
-            $this->result[] = $this->dbInstance->Fetch($tmpRs);
+            if($this->dbInstance->NumRows($tmpRs))
+            {
+              if($this->dbInstance->NumRows($tmpRs) == 1)
+                $this->result[] = $this->dbInstance->Fetch($tmpRs);
+              else
+                while($this->result[] = $this->dbInstance->Fetch($tmpRs));
+            }
+            else $this->result = null;
         }
         catch (Exception $e)
         {
@@ -159,7 +173,14 @@ class Cotacoes {
 
         try{
             $tmpRs = $this->dbInstance->Execute($this->sqlStatement,"HQL()");
-            $this->result[] = $this->dbInstance->Fetch($tmpRs);
+            if($this->dbInstance->NumRows($tmpRs))
+            {
+              if($this->dbInstance->NumRows($tmpRs) == 1)
+                $this->result[] = $this->dbInstance->Fetch($tmpRs);
+              else
+                while($this->result[] = $this->dbInstance->Fetch($tmpRs));
+            }
+            else $this->result = null;
         }
         catch (Exception $e)
         {

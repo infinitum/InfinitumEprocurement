@@ -19,4 +19,16 @@
         require_once("business/UsuariosDAO.php");
 
 	include('vo/autenticationVO.php');
+        include('vo/categoriaprodutoVO.php');
+        include('vo/clienteVO.php');
+        include('vo/cotacaoVO.php');
+        include('vo/fornecedorVO.php');
+        include('vo/marcaVO.php');
+        include('vo/orcamentoVO.php');
+        include('vo/produtoVO.php');
+        include('vo/produtocotacaoVO.php');
+        include('vo/produtoorcamentoVO.php');
+        include('vo/tipousuarioVO.php');
+        include('vo/usernameVO.php');
+        include('vo/usuarioVO.php');
 ?>

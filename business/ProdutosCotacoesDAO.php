@@ -7,7 +7,7 @@
  * @copyright Infinitum
  */
  require_once('../includes.php');
-class ProdutosCotacoes {
+class ProdutosCotacoesDAO {
     private $dbInstance;
     private $sqlStatement;
     private $result;
@@ -53,7 +53,14 @@ class ProdutosCotacoes {
 
         try{
             $tmpRs = $this->dbInstance->Execute($this->sqlStatement,"Find produtoscotacoes()");
-            $this->result[] = $this->dbInstance->Fetch($tmpRs);
+            if($this->dbInstance->NumRows($tmpRs))
+            {
+              if($this->dbInstance->NumRows($tmpRs) == 1)
+                $this->result[] = $this->dbInstance->Fetch($tmpRs);
+              else
+                while($this->result[] = $this->dbInstance->Fetch($tmpRs));
+            }
+            else $this->result = null;
         }
         catch (Exception $e)
         {
@@ -88,7 +95,14 @@ class ProdutosCotacoes {
 
         try{
             $tmpRs = $this->dbInstance->Execute($this->sqlStatement,"Find produtocotacao()");
-            $this->result[] = $this->dbInstance->Fetch($tmpRs);
+            if($this->dbInstance->NumRows($tmpRs))
+            {
+              if($this->dbInstance->NumRows($tmpRs) == 1)
+                $this->result[] = $this->dbInstance->Fetch($tmpRs);
+              else
+                while($this->result[] = $this->dbInstance->Fetch($tmpRs));
+            }
+            else $this->result = null;
         }
         catch (Exception $e)
         {
@@ -149,7 +163,14 @@ class ProdutosCotacoes {
 
         try{
             $tmpRs = $this->dbInstance->Execute($this->sqlStatement,"HQL()");
-            $this->result[] = $this->dbInstance->Fetch($tmpRs);
+            if($this->dbInstance->NumRows($tmpRs))
+            {
+              if($this->dbInstance->NumRows($tmpRs) == 1)
+                $this->result[] = $this->dbInstance->Fetch($tmpRs);
+              else
+                while($this->result[] = $this->dbInstance->Fetch($tmpRs));
+            }
+            else $this->result = null;
         }
         catch (Exception $e)
         {

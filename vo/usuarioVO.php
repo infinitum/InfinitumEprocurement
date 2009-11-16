@@ -2,6 +2,7 @@
 	class usuarioVO
 	{	
 		public $id;
+                public $idtipo;
                 public $tipo;
                 public $nome;
                 public $sobrenome;

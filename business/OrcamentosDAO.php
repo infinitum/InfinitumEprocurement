@@ -7,7 +7,7 @@
  * @copyright Infinitum
  */
  require_once('../includes.php');
-class Orcamentos {
+class OrcamentosDAO {
     private $dbInstance;
     private $sqlStatement;
     private $result;
@@ -55,7 +55,14 @@ class Orcamentos {
 
         try{
             $tmpRs = $this->dbInstance->Execute($this->sqlStatement,"Find orcamento()");
-            $this->result[] = $this->dbInstance->Fetch($tmpRs);
+            if($this->dbInstance->NumRows($tmpRs))
+            {
+              if($this->dbInstance->NumRows($tmpRs) == 1)
+                $this->result[] = $this->dbInstance->Fetch($tmpRs);
+              else
+                while($this->result[] = $this->dbInstance->Fetch($tmpRs));
+            }
+            else $this->result = null;
         }
         catch (Exception $e)
         {
@@ -93,7 +100,14 @@ class Orcamentos {
 
         try{
             $tmpRs = $this->dbInstance->Execute($this->sqlStatement,"Find orcamento()");
-            $this->result[] = $this->dbInstance->Fetch($tmpRs);
+            if($this->dbInstance->NumRows($tmpRs))
+            {
+              if($this->dbInstance->NumRows($tmpRs) == 1)
+                $this->result[] = $this->dbInstance->Fetch($tmpRs);
+              else
+                while($this->result[] = $this->dbInstance->Fetch($tmpRs));
+            }
+            else $this->result = null;
         }
         catch (Exception $e)
         {
@@ -174,7 +188,14 @@ class Orcamentos {
 
         try{
             $tmpRs = $this->dbInstance->Execute($this->sqlStatement,"HQL()");
-            $this->result[] = $this->dbInstance->Fetch($tmpRs);
+            if($this->dbInstance->NumRows($tmpRs))
+            {
+              if($this->dbInstance->NumRows($tmpRs) == 1)
+                $this->result[] = $this->dbInstance->Fetch($tmpRs);
+              else
+                while($this->result[] = $this->dbInstance->Fetch($tmpRs));
+            }
+            else $this->result = null;
         }
         catch (Exception $e)
         {

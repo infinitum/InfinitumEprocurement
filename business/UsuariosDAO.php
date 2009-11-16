@@ -7,7 +7,7 @@
  * @copyright Infinitum
  */
  require_once('../includes.php');
-class Usuarios {
+class UsuariosDAO {
     private $dbInstance;
     private $sqlStatement;
     private $result;
@@ -42,7 +42,7 @@ class Usuarios {
     public function FindOne($Usuario){
         $this->sqlStatement = "SELECT
                                         int_idusuario as id,
-                                        int_idtipo_usuario as tipo,
+                                        int_idtipo_usuario as idtipo,
                                         tx_nomeusuario as nome,
                                         tx_sobrenomeusuario as sobrenome,
                                         tx_email as email,
@@ -54,7 +54,9 @@ class Usuarios {
 
         try{
             $tmpRs = $this->dbInstance->Execute($this->sqlStatement,"Find usuarios()");
-            $this->result[] = $this->dbInstance->Fetch($tmpRs);
+            if($this->dbInstance->NumRows($tmpRs))
+                $this->result[] = $this->dbInstance->Fetch($tmpRs);
+            else $this->result = null;
         }
         catch (Exception $e)
         {
@@ -80,7 +82,7 @@ class Usuarios {
     public function FindAll($Expression='',$Order=''){
         $this->sqlStatement = "SELECT
                                         int_idusuario as id,
-                                        int_idtipo_usuario as tipo,
+                                        int_idtipo_usuario as idtipo,
                                         tx_nomeusuario as nome,
                                         tx_sobrenomeusuario as sobrenome,
                                         tx_email as email,
@@ -92,7 +94,14 @@ class Usuarios {
 
         try{
             $tmpRs = $this->dbInstance->Execute($this->sqlStatement,"Find usuarios()");
-            $this->result[] = $this->dbInstance->Fetch($tmpRs);
+            if($this->dbInstance->NumRows($tmpRs))
+            {
+              if($this->dbInstance->NumRows($tmpRs) == 1)
+                $this->result[] = $this->dbInstance->Fetch($tmpRs);
+              else
+                while($this->result[] = $this->dbInstance->Fetch($tmpRs));
+            }
+            else $this->result = null;
         }
         catch (Exception $e)
         {
@@ -117,22 +126,25 @@ class Usuarios {
         if($dados->id != '0')
         {
             $this->sqlStatement = " UPDATE tbusuarios SET ";
-            $this->sqlStatement .= " int_idtipo_usuario = {$dados->tipo}, ";
+            $this->sqlStatement .= " int_idtipo_usuario = {$dados->idtipo}, ";
             $this->sqlStatement .= " tx_nomeusuario = '{$dados->nome}', ";
             $this->sqlStatement .= " tx_sobrenomeusuario = '{$dados->sobrenome}', ";
             $this->sqlStatement .= " tx_email = '{$dados->email}' ";
-            $this->sqlStatement .= " WHERE int_idusername = {$dados->id} ";
+            $this->sqlStatement .= " WHERE int_idusuario = {$dados->id} ";
+
         }
         else
         {
             $this->valueID = $this->sequence->getSequence('tbusuarios');
-            $this->sqlStatement .= " INSERT INTO tbusuarios
+            
+            $this->sqlStatement = " INSERT INTO tbusuarios
                                     (
                                         int_idusuario,
                                         int_idtipo_usuario,
                                         tx_nomeusuario,
                                         tx_sobrenomeusuario,
-                                        tx_email
+                                        tx_email,
+                                        dt_datacadastro
                                     )";
             $this->sqlStatement .= "VALUES
                                     (
@@ -140,10 +152,11 @@ class Usuarios {
                                         {$dados->tipo},
                                         '{$dados->nome}',
                                         '{$dados->sobrenome}',
-                                        '{$dados->email}'
+                                        '{$dados->email}',
+                                        '{$dados->datacadastro}'
                                     )";
         }
-
+        
         try{
             $this->dbInstance->Execute($this->sqlStatement,"Save usuarios()");
         }
@@ -170,7 +183,14 @@ class Usuarios {
 
         try{
             $tmpRs = $this->dbInstance->Execute($this->sqlStatement,"HQL()");
-            $this->result[] = $this->dbInstance->Fetch($tmpRs);
+            if($this->dbInstance->NumRows($tmpRs))
+            {
+              if($this->dbInstance->NumRows($tmpRs) == 1)
+                $this->result[] = $this->dbInstance->Fetch($tmpRs);
+              else
+                while($this->result[] = $this->dbInstance->Fetch($tmpRs));
+            }
+            else $this->result = null;
         }
         catch (Exception $e)
         {

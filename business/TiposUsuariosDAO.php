@@ -7,7 +7,7 @@
  * @copyright Infinitum
  */
  require_once('../includes.php');
-class TiposUsuarios {
+class TiposUsuariosDAO {
     private $dbInstance;
     private $sqlStatement;
     private $result;
@@ -43,15 +43,22 @@ class TiposUsuarios {
     public function FindOne($Tipo){
         $this->sqlStatement = "SELECT
                                         int_idtipo_usuario as id,
-                                        tx_tipo_usuario as tipo,
+                                        tx_tipo_usuario as tipo
                                 FROM
                                         tbtipousuario
                                 WHERE
-                                        int_idtipo_usuario = {$Tipo}";
+                                        int_idtipo_usuario = {$Tipo} ";
 
         try{
             $tmpRs = $this->dbInstance->Execute($this->sqlStatement,"Find tiposusuarios()");
-            $this->result[] = $this->dbInstance->Fetch($tmpRs);
+            if($this->dbInstance->NumRows($tmpRs))
+            {
+              if($this->dbInstance->NumRows($tmpRs) == 1)
+                $this->result[] = $this->dbInstance->Fetch($tmpRs);
+              else
+                while($this->result[] = $this->dbInstance->Fetch($tmpRs));
+            }
+            else $this->result = null;
         }
         catch (Exception $e)
         {
@@ -85,7 +92,14 @@ class TiposUsuarios {
 
         try{
             $tmpRs = $this->dbInstance->Execute($this->sqlStatement,"Find tiposusuarios()");
-            $this->result[] = $this->dbInstance->Fetch($tmpRs);
+            if($this->dbInstance->NumRows($tmpRs))
+            {
+              if($this->dbInstance->NumRows($tmpRs) == 1)
+                $this->result[] = $this->dbInstance->Fetch($tmpRs);
+              else
+                while($this->result[] = $this->dbInstance->Fetch($tmpRs));
+            }
+            else $this->result = null;
         }
         catch (Exception $e)
         {
@@ -154,7 +168,14 @@ class TiposUsuarios {
 
         try{
             $tmpRs = $this->dbInstance->Execute($this->sqlStatement,"HQL()");
-            $this->result[] = $this->dbInstance->Fetch($tmpRs);
+            if($this->dbInstance->NumRows($tmpRs))
+            {
+              if($this->dbInstance->NumRows($tmpRs) == 1)
+                $this->result[] = $this->dbInstance->Fetch($tmpRs);
+              else
+                while($this->result[] = $this->dbInstance->Fetch($tmpRs));
+            }
+            else $this->result = null;
         }
         catch (Exception $e)
         {

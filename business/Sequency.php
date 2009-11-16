@@ -26,7 +26,14 @@ class Sequency {
         $this->sqlStatement = "SELECT cod_seq FROM tbseq WHERE nome_table = '{$tableName}' ";
         try{
             $tmpRs = $this->dbInstance->Execute($this->sqlStatement,'getSequence({$tableName})');
-            $this->result = $this->dbInstance->Fetch($tmpRs);
+            if($this->dbInstance->NumRows($tmpRs))
+            {
+              if($this->dbInstance->NumRows($tmpRs) == 1)
+                $this->result[] = $this->dbInstance->Fetch($tmpRs);
+              else
+                while($this->result[] = $this->dbInstance->Fetch($tmpRs));
+            }
+            else $this->result = null;
         }
         catch (Exception $e)
         {
@@ -34,7 +41,7 @@ class Sequency {
              exit;
         }
         $retorno = $this->result['cod_seq'];
-
+        
         $this->setSequence($tableName);
         
         return $retorno;

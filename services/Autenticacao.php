@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	// include das classes de usuario e suplyer
+	// include das classes
 	require_once('../includes.php');
 
 	/**
@@ -18,6 +18,7 @@
 		private $EntUsuario;
                 private $EntUsername;
 		private $Session;
+                private $dados;
 		private $tableData;
 		private $rsLogin;
 		private $rsData;
@@ -42,13 +43,13 @@
 		 */
 		public function doAutentication($arrDados)
 		{
-			$dados = new autenticationVO();
-			$dados->username = $arrDados["username"];
-			$dados->password = $arrDados["password"];
+			$this->dados = new autenticationVO();
+			$this->dados->username = $arrDados["username"];
+			$this->dados->password = $arrDados["password"];
 			
 			$this->boolLogin = false;
-			$this->strLogin = isset($dados->username) ? addslashes(trim($dados->username)) : FALSE;
-			$this->strSenha = isset($dados->password) ? addslashes(trim($dados->password)) : FALSE;
+			$this->strLogin = isset($this->dados->username) ? addslashes(trim($this->dados->username)) : FALSE;
+			$this->strSenha = isset($this->dados->password) ? addslashes(trim($this->dados->password)) : FALSE;
 			
 			if($this->strLogin != false && $this->strSenha != false)
 			{
@@ -92,13 +93,13 @@
 										
 					$this->boolLogin = true;
 
-                                        $dados->nome = $this->tableData[0]['nome'];
-                                        $dados->id = $this->tableData[0]['id'];
-                                        $dados->idtipo = $this->tableData[0]['idtipo'];
-                                        $dados->tipo = $this->tableData[0]['tipo'];
-                                        $dados->usuario = $this->tableData[0]['usuario'];
-                                        $dados->boolAcesso = $this->tableData[0]['roles'];
-                                        $dados->boolLogin = true;
+                                        $this->dados->nome = $this->tableData[0]['nome'];
+                                        $this->dados->id = $this->tableData[0]['id'];
+                                        $this->dados->idtipo = $this->tableData[0]['idtipo'];
+                                        $this->dados->tipo = $this->tableData[0]['tipo'];
+                                        $this->dados->usuario = $this->tableData[0]['usuario'];
+                                        $this->dados->boolAcesso = $this->tableData[0]['roles'];
+                                        $this->dados->boolLogin = true;
 				}
 			}
 			
@@ -114,7 +115,7 @@
 		public function LogoutUser()
 		{
 			$this->Session->SessionDestroy();
-                        $dados = new autenticationVO();
+                        $this->dados = new autenticationVO();
 
 			return true;
 		}
