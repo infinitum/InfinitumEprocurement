@@ -3,6 +3,7 @@
     	require_once("_models/_db/queryBuilder.class.php");
 	require_once("_models/_sessao/sessao.class.php");
         
+
         //business
         require_once("business/sequency.php");
         require_once("business/CategoriasProdutosDAO.php");
