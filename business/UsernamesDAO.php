@@ -7,7 +7,7 @@
  * @copyright Infinitum
  */
  require_once('../includes.php');
-class Usernames {
+class UsernamesDAO {
     private $dbInstance;
     private $sqlStatement;
     private $result;

@@ -28,8 +28,8 @@
 		
 		public function __construct()
 		{
-			$this->EntUsuario = new Usuarios();
-			$this->EntUsername = new Usernames();
+			$this->EntUsuario = new UsuariosDAO();
+			$this->EntUsername = new UsernamesDAO();
 			$this->Session = new SessionAdmin();
 		}
 		
